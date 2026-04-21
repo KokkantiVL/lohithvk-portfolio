@@ -26,10 +26,7 @@ export const personalInfo = {
 };
 
 export const aboutParagraphs = [
-  "Senior engineer with 3+ years building high-throughput backend systems and ML pipelines in production. At Accenture I cut checkout p95 latency from 1.8s to 600ms for 50M+ European consumers, shipped fraud-detection APIs at 50ms p95, and designed event-driven architectures that absorbed 3× seasonal traffic spikes without blinking.",
-  "My sweet spot sits at the intersection of distributed systems engineering and applied ML — where reliability, performance, and intelligence converge. I've designed Redis key-sharding strategies to kill hot-key contention, built Kafka pipelines with idempotency guarantees, and productionized Document AI + LLM pipelines that replace human data-entry at scale.",
-  "M.S. in Data Science from UB, done. Currently doing research on high-performance numerical computing across C++, R, and Python ecosystems. On-call experience has taught me one thing above all: systems that can't be understood at 2am shouldn't be deployed.",
-];
+  "Senior engineer with 3+ years building high-throughput backend systems and ML pipelines in production. At Accenture, I cut checkout p95 from 1.8s to 600ms for 50M+ users, shipped fraud-detection APIs at 50ms p95, and productionized Document AI pipelines that replaced manual data entry. M.S. in Data Science, University at Buffalo. Currently researching high-performance numerical computing across C++, R, and Python."];
 
 export const skills: Record<string, string[]> = {
   Languages: ["Java", "Python", "Go", "C++", "TypeScript", "JavaScript", "SQL"],
