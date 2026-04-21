@@ -9,11 +9,9 @@
  */
 
 import { Pinecone } from "@pinecone-database/pinecone";
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import fs from "fs";
 import path from "path";
 
-const genai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 const pinecone = new Pinecone({ apiKey: process.env.PINECONE_API_KEY! });
 
 const INDEX_NAME = process.env.PINECONE_INDEX_NAME!;
@@ -39,9 +37,20 @@ function chunkText(text: string): string[] {
 }
 
 async function embedText(text: string): Promise<number[]> {
-  const model = genai.getGenerativeModel({ model: "text-embedding-004" });
-  const result = await model.embedContent(text);
-  return result.embedding.values;
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1/models/text-embedding-004:embedContent?key=${process.env.GEMINI_API_KEY}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "models/text-embedding-004",
+        content: { parts: [{ text }] },
+      }),
+    }
+  );
+  if (!res.ok) throw new Error(`Embed failed: ${await res.text()}`);
+  const data = await res.json();
+  return data.embedding.values;
 }
 
 async function ingest() {
