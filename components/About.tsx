@@ -59,40 +59,47 @@ export default function About() {
               </motion.p>
             ))}
 
-            {/* Education card */}
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewport}
-              transition={{ duration: 0.65, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-8 p-5 border border-border-dim bg-surface group hover:border-border-mid transition-colors duration-300"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-xs font-mono text-muted tracking-widest uppercase mb-2">
-                    Education
-                  </p>
-                  <p className="text-primary font-semibold text-sm">
-                    {personalInfo.education.degree}
-                  </p>
-                  <p className="text-secondary text-sm mt-0.5">
-                    {personalInfo.education.school}
-                  </p>
-                  <p className="text-muted text-xs font-mono mt-1">
-                    {personalInfo.education.period}
-                  </p>
-                </div>
-                <div className="text-right shrink-0">
-                  <p className="text-xs font-mono text-muted tracking-widest uppercase mb-1">
-                    GPA
-                  </p>
-                  <p className="text-primary font-bold text-xl">
-                    {personalInfo.education.gpa}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
+            {/* Education cards */}
+            <div className="mt-8 space-y-3">
+              <p className="text-xs font-mono text-muted tracking-[0.2em] uppercase">
+                Education
+              </p>
+              {personalInfo.education.map((edu, i) => (
+                <motion.div
+                  key={edu.school}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={viewport}
+                  transition={{ duration: 0.65, delay: 0.2 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  className="p-5 border border-border-dim bg-surface hover:border-border-mid transition-colors duration-300"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-primary font-semibold text-sm">
+                        {edu.degree}
+                      </p>
+                      <p className="text-secondary text-sm mt-0.5">
+                        {edu.school}
+                      </p>
+                      <p className="text-muted text-xs font-mono mt-1">
+                        {edu.period}
+                      </p>
+                    </div>
+                    {edu.gpa && (
+                      <div className="text-right shrink-0">
+                        <p className="text-xs font-mono text-muted tracking-widest uppercase mb-1">
+                          GPA
+                        </p>
+                        <p className="text-primary font-bold text-xl">
+                          {edu.gpa}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
 
           {/* Right: Skills */}

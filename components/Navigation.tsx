@@ -140,6 +140,12 @@ export default function Navigation() {
               >
                 GitHub ↗
               </a>
+              <a
+                href="mailto:venkatalohithk.9@gmail.com"
+                className="inline-block text-sm px-5 py-2.5 bg-white text-black font-semibold text-center hover:bg-white/90 transition-colors"
+              >
+                Hire Me
+              </a>
             </div>
           </motion.div>
         )}

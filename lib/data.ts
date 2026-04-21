@@ -9,12 +9,20 @@ export const personalInfo = {
   linkedin: "https://www.linkedin.com/in/venkata-lohith-kokkanti/",
   resume: null as string | null,
   location: "Buffalo, NY",
-  education: {
-    degree: "M.S. Data Science & Applications",
-    school: "University at Buffalo, SUNY",
-    gpa: "3.80 / 4.00",
-    period: "Aug 2024 – Dec 2025",
-  },
+  education: [
+    {
+      degree: "M.S. Data Science & Applications",
+      school: "University at Buffalo, SUNY",
+      gpa: "3.80 / 4.00",
+      period: "Aug 2024 – Dec 2025",
+    },
+    {
+      degree: "B.Tech Computer Science & Engineering",
+      school: "Presidency University",
+      gpa: null as string | null,
+      period: "Aug 2017 – Jun 2021",
+    },
+  ],
 };
 
 export const aboutParagraphs = [

@@ -2,11 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Terminal, Minimize2 } from "lucide-react";
+import { X, Send, Minimize2, Sparkles } from "lucide-react";
 
-/* ─────────────────────────────────────────────────────────────
-   Types
-───────────────────────────────────────────────────────────── */
 type Role = "assistant" | "user";
 
 interface Message {
@@ -16,9 +13,6 @@ interface Message {
   timestamp: Date;
 }
 
-/* ─────────────────────────────────────────────────────────────
-   Seed messages shown on first open
-───────────────────────────────────────────────────────────── */
 const SEED_MESSAGES: Message[] = [
   {
     id: "seed-1",
@@ -31,32 +25,24 @@ const SEED_MESSAGES: Message[] = [
     id: "seed-2",
     role: "assistant",
     content:
-      "Try: \"What did you do at Accenture?\" or \"Tell me about your Redis project.\"",
+      'Try: "What did you do at Accenture?" or "Tell me about your Redis project."',
     timestamp: new Date(),
   },
 ];
 
-/* ─────────────────────────────────────────────────────────────
-   Helpers
-───────────────────────────────────────────────────────────── */
 function formatTime(d: Date) {
   return d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
 }
 
 function TypingIndicator() {
   return (
-    <div className="flex items-center gap-1 px-3 py-2">
+    <div className="flex items-center gap-1.5 px-3 py-2.5">
       {[0, 1, 2].map((i) => (
         <motion.span
           key={i}
-          className="block w-1.5 h-1.5 rounded-full bg-secondary"
-          animate={{ opacity: [0.2, 1, 0.2], y: [0, -3, 0] }}
-          transition={{
-            duration: 1,
-            repeat: Infinity,
-            delay: i * 0.2,
-            ease: "easeInOut",
-          }}
+          className="block w-2 h-2 rounded-full bg-gray-300"
+          animate={{ opacity: [0.3, 1, 0.3], y: [0, -3, 0] }}
+          transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.18, ease: "easeInOut" }}
         />
       ))}
     </div>
@@ -67,38 +53,32 @@ function MessageBubble({ msg }: { msg: Message }) {
   const isAssistant = msg.role === "assistant";
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10, scale: 0.97 }}
+      initial={{ opacity: 0, y: 8, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
       className={`flex flex-col gap-1 ${isAssistant ? "items-start" : "items-end"}`}
     >
       {isAssistant && (
-        <span className="text-[10px] font-mono text-muted ml-1 tracking-wide">
+        <span className="text-[10px] font-mono text-gray-400 ml-1 tracking-wide">
           lk.ai
         </span>
       )}
       <div
-        className={`max-w-[85%] px-3 py-2 text-sm leading-relaxed font-mono ${
+        className={`max-w-[85%] px-3.5 py-2.5 text-sm leading-relaxed rounded-2xl ${
           isAssistant
-            ? "bg-surface-2 border border-border-dim text-secondary"
-            : "bg-white/5 border border-white/10 text-primary"
+            ? "bg-gray-100 text-gray-800 rounded-tl-sm"
+            : "bg-gray-900 text-white rounded-tr-sm"
         }`}
       >
-        {isAssistant && (
-          <span className="text-muted mr-1.5 select-none">{">"}</span>
-        )}
         {msg.content}
       </div>
-      <span className="text-[10px] font-mono text-muted/50 px-1">
+      <span className="text-[10px] text-gray-400 px-1">
         {formatTime(msg.timestamp)}
       </span>
     </motion.div>
   );
 }
 
-/* ─────────────────────────────────────────────────────────────
-   Main component
-───────────────────────────────────────────────────────────── */
 export default function AIAssistant() {
   const [open, setOpen] = useState(false);
   const [minimized, setMinimized] = useState(false);
@@ -108,13 +88,12 @@ export default function AIAssistant() {
   const [hasOpened, setHasOpened] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
-  /* Scroll to bottom on new messages */
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
-  /* Focus input when opened */
   useEffect(() => {
     if (open && !minimized) {
       setTimeout(() => inputRef.current?.focus(), 300);
@@ -127,7 +106,6 @@ export default function AIAssistant() {
     if (!hasOpened) setHasOpened(true);
   };
 
-  /* ── Send handler — wire your backend here ── */
   const handleSend = async () => {
     const text = input.trim();
     if (!text) return;
@@ -144,29 +122,27 @@ export default function AIAssistant() {
     setIsTyping(true);
 
     /*
-     * ──────────────────────────────────────────────────
-     * TODO: Replace this placeholder with your RAG call
+     * TODO: Replace with your RAG backend call
      *
      *   const res = await fetch("/api/chat", {
      *     method: "POST",
      *     body: JSON.stringify({ message: text }),
      *   });
      *   const { reply } = await res.json();
-     *
-     * ──────────────────────────────────────────────────
      */
     await new Promise((r) => setTimeout(r, 1400));
 
-    const botMsg: Message = {
-      id: `bot-${Date.now()}`,
-      role: "assistant",
-      content:
-        "I'm not wired up yet — Lohith is still plugging in the backend. Check back soon, or reach out to him directly on LinkedIn.",
-      timestamp: new Date(),
-    };
-
     setIsTyping(false);
-    setMessages((prev) => [...prev, botMsg]);
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: `bot-${Date.now()}`,
+        role: "assistant",
+        content:
+          "I'm not wired up yet — Lohith is still plugging in the backend. Check back soon, or reach out to him directly on LinkedIn.",
+        timestamp: new Date(),
+      },
+    ]);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -178,7 +154,7 @@ export default function AIAssistant() {
 
   return (
     <>
-      {/* ── Floating trigger button ── */}
+      {/* ── FAB ── */}
       <AnimatePresence>
         {(!open || minimized) && (
           <motion.button
@@ -186,29 +162,32 @@ export default function AIAssistant() {
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            transition={{ type: "spring", stiffness: 320, damping: 22 }}
             onClick={openChat}
-            className="fixed bottom-6 right-6 z-50 group w-14 h-14 bg-surface border border-border-mid flex items-center justify-center hover:bg-surface-2 hover:border-muted transition-all duration-200 shadow-2xl"
+            className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 flex flex-col items-center gap-1.5 group"
             aria-label="Open AI assistant"
           >
-            <Terminal
-              size={20}
-              className="text-secondary group-hover:text-primary transition-colors"
-            />
+            {/* Button */}
+            <div className="relative w-14 h-14 bg-white rounded-2xl shadow-2xl flex items-center justify-center group-hover:shadow-white/20 transition-shadow duration-300">
+              <Sparkles size={22} className="text-gray-800" />
 
-            {/* Pulsing ring */}
-            <span className="absolute inset-0 rounded-none">
+              {/* Pulse ring */}
               <motion.span
-                className="absolute inset-0 border border-white/10"
-                animate={{ scale: [1, 1.3, 1.3], opacity: [0.4, 0, 0] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "easeOut" }}
+                className="absolute inset-0 rounded-2xl border-2 border-white"
+                animate={{ scale: [1, 1.25, 1.25], opacity: [0.6, 0, 0] }}
+                transition={{ duration: 2.2, repeat: Infinity, ease: "easeOut" }}
               />
-            </span>
 
-            {/* Unread dot */}
-            {!hasOpened && (
-              <span className="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full" />
-            )}
+              {/* Unread dot */}
+              {!hasOpened && (
+                <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-bg" />
+              )}
+            </div>
+
+            {/* Label */}
+            <span className="text-[10px] font-mono text-secondary tracking-widest bg-bg/80 px-2 py-0.5">
+              Ask me
+            </span>
           </motion.button>
         )}
       </AnimatePresence>
@@ -218,96 +197,78 @@ export default function AIAssistant() {
         {open && !minimized && (
           <motion.div
             key="chat"
-            initial={{ opacity: 0, y: 24, scale: 0.96 }}
+            initial={{ opacity: 0, y: 20, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 24, scale: 0.96 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed bottom-6 right-6 z-50 w-[360px] sm:w-[400px] flex flex-col border border-border-mid bg-[#0a0a0a] shadow-2xl"
-            style={{ height: "520px" }}
+            exit={{ opacity: 0, y: 20, scale: 0.97 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed z-50 flex flex-col bg-white shadow-2xl rounded-2xl overflow-hidden
+                       bottom-20 left-4 right-4 max-h-[70vh]
+                       sm:left-auto sm:right-6 sm:w-[400px] sm:max-h-[540px] sm:bottom-24"
           >
-            {/* ── Header ── */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-border-dim bg-surface shrink-0">
-              <div className="flex items-center gap-2.5">
-                {/* Online indicator */}
-                <div className="relative flex">
-                  <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-white opacity-10" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-white/40" />
-                </div>
 
+            {/* ── Header ── */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 bg-gray-50 shrink-0">
+              <div className="flex items-center gap-2.5">
+                <div className="relative flex shrink-0">
+                  <span className="animate-ping absolute inline-flex h-2.5 w-2.5 rounded-full bg-green-400 opacity-50" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-500" />
+                </div>
                 <div>
-                  <p className="text-xs font-mono text-primary tracking-wide">
+                  <p className="text-sm font-semibold text-gray-900 leading-none">
                     lk.ai
                   </p>
-                  <p className="text-[10px] font-mono text-muted">
+                  <p className="text-[10px] text-gray-400 mt-0.5">
                     Lohith&apos;s digital twin · RAG-powered
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-0.5">
                 <button
                   onClick={() => setMinimized(true)}
-                  className="p-1.5 text-muted hover:text-secondary transition-colors"
+                  className="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
                   aria-label="Minimize"
                 >
-                  <Minimize2 size={13} />
+                  <Minimize2 size={14} />
                 </button>
                 <button
                   onClick={() => setOpen(false)}
-                  className="p-1.5 text-muted hover:text-secondary transition-colors"
+                  className="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
                   aria-label="Close"
                 >
-                  <X size={13} />
+                  <X size={14} />
                 </button>
               </div>
             </div>
 
-            {/* ── Scan line effect ── */}
-            <div className="relative flex-1 overflow-hidden">
-              <div
-                className="absolute inset-0 pointer-events-none z-10 opacity-[0.02]"
-                style={{
-                  backgroundImage:
-                    "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.15) 2px, rgba(255,255,255,0.15) 4px)",
-                }}
-                aria-hidden="true"
-              />
+            {/* ── Messages ── */}
+            <div
+              ref={scrollAreaRef}
+              className="flex-1 overflow-y-auto px-4 py-4 space-y-4 overscroll-contain"
+              style={{ WebkitOverflowScrolling: "touch" }}
+            >
+              {messages.map((msg) => (
+                <MessageBubble key={msg.id} msg={msg} />
+              ))}
 
-              {/* ── Messages ── */}
-              <div className="h-full overflow-y-auto px-4 py-4 space-y-4 scrollbar-hide">
-                {/* Prompt prefix header */}
-                <div className="font-mono text-[10px] text-muted/50 select-none">
-                  lk@portfolio:~$ ./chat --model rag-twin
-                </div>
+              {isTyping && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex flex-col items-start gap-1"
+                >
+                  <span className="text-[10px] text-gray-400 ml-1">lk.ai</span>
+                  <div className="bg-gray-100 rounded-2xl rounded-tl-sm">
+                    <TypingIndicator />
+                  </div>
+                </motion.div>
+              )}
 
-                {messages.map((msg) => (
-                  <MessageBubble key={msg.id} msg={msg} />
-                ))}
-
-                {isTyping && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="flex flex-col items-start gap-1"
-                  >
-                    <span className="text-[10px] font-mono text-muted ml-1">
-                      lk.ai
-                    </span>
-                    <div className="bg-surface-2 border border-border-dim">
-                      <TypingIndicator />
-                    </div>
-                  </motion.div>
-                )}
-
-                <div ref={bottomRef} />
-              </div>
+              <div ref={bottomRef} />
             </div>
 
             {/* ── Input ── */}
-            <div className="flex items-center gap-0 border-t border-border-dim bg-surface shrink-0">
-              <span className="px-3 text-xs font-mono text-muted select-none shrink-0">
-                $
-              </span>
+            <div className="flex items-center gap-2 px-3 py-3 border-t border-gray-100 bg-white shrink-0">
               <input
                 ref={inputRef}
                 type="text"
@@ -315,15 +276,15 @@ export default function AIAssistant() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Ask me anything..."
-                className="flex-1 bg-transparent py-3.5 pr-2 text-sm font-mono text-primary placeholder:text-muted/50 focus:outline-none"
+                className="flex-1 bg-gray-50 rounded-xl px-4 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200 transition-all"
               />
               <button
                 onClick={handleSend}
                 disabled={!input.trim() || isTyping}
-                className="px-4 py-3.5 text-muted hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-colors duration-150 border-l border-border-dim hover:bg-surface-2"
+                className="w-9 h-9 flex items-center justify-center bg-gray-900 text-white rounded-xl hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150 shrink-0"
                 aria-label="Send message"
               >
-                <Send size={13} />
+                <Send size={14} />
               </button>
             </div>
           </motion.div>

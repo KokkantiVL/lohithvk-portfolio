@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Github, Linkedin, FileText, ArrowDown } from "lucide-react";
 import { personalInfo } from "@/lib/data";
+import ViewerCount from "@/components/ViewerCount";
 
 const TITLES = [
   "Software Engineer",
@@ -179,7 +180,7 @@ export default function Hero() {
         aria-hidden="true"
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 pt-32 pb-24">
+      <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-6 pt-24 sm:pt-32 pb-16 sm:pb-24">
         {/* Status badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -300,6 +301,7 @@ export default function Hero() {
               </span>
             </div>
           ))}
+          <ViewerCount />
         </motion.div>
       </div>
 
