@@ -121,28 +121,49 @@ export default function AIAssistant() {
     setInput("");
     setIsTyping(true);
 
-    /*
-     * TODO: Replace with your RAG backend call
-     *
-     *   const res = await fetch("/api/chat", {
-     *     method: "POST",
-     *     body: JSON.stringify({ message: text }),
-     *   });
-     *   const { reply } = await res.json();
-     */
-    await new Promise((r) => setTimeout(r, 1400));
+    const botId = `bot-${Date.now()}`;
 
-    setIsTyping(false);
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: `bot-${Date.now()}`,
-        role: "assistant",
-        content:
-          "I'm not wired up yet — Lohith is still plugging in the backend. Check back soon, or reach out to him directly on LinkedIn.",
-        timestamp: new Date(),
-      },
-    ]);
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text }),
+      });
+
+      if (!res.ok || !res.body) throw new Error("API error");
+
+      setIsTyping(false);
+      setMessages((prev) => [
+        ...prev,
+        { id: botId, role: "assistant", content: "", timestamp: new Date() },
+      ]);
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === botId ? { ...m, content: m.content + chunk } : m
+          )
+        );
+      }
+    } catch {
+      setIsTyping(false);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: botId,
+          role: "assistant",
+          content:
+            "Something went wrong on my end. Reach out to Lohith directly at venkatalohithk.9@gmail.com.",
+          timestamp: new Date(),
+        },
+      ]);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
