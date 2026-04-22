@@ -1,7 +1,7 @@
 # About Lohith
 
 ## Who I am
-I'm Venkata Lohith Kokkanti — a software engineer who builds systems that scale to millions of users and survive 3am incidents. I have 3+ years of industry experience and a M.S. in Data Science from University at Buffalo (GPA 3.80).
+I'm Venkata Lohith Kokkanti — a software engineer with 3+ years of industry experience building systems that scale to millions of users. M.S. in Data Science from University at Buffalo (GPA 3.80).
 
 Currently a Research Engineer at University at Buffalo, building bioinformatics packages (NORSP) in R and Python targeting CRAN release. My work sits at the intersection of distributed systems engineering and applied ML — where reliability, performance, and intelligence converge.
 

@@ -26,7 +26,7 @@ export const personalInfo = {
 };
 
 export const aboutParagraphs = [
-  "Senior engineer with 3+ years building high-throughput backend systems and ML pipelines in production. At Accenture, I cut checkout p95 from 1.8s to 600ms for 50M+ users, shipped fraud-detection APIs at 50ms p95, and productionized Document AI pipelines that replaced manual data entry. M.S. in Data Science, University at Buffalo (GPA 3.80). Currently a Research Engineer at UB, building bioinformatics packages (NORSP) in R and Python targeting CRAN release."];
+  "Software engineer with 3+ years building high-throughput backend systems and ML pipelines in production. At Accenture, I cut checkout p95 from 1.8s to 600ms for 50M+ users, shipped fraud-detection APIs at 50ms p95, and productionized Document AI pipelines that replaced manual data entry. M.S. in Data Science, University at Buffalo (GPA 3.80). Currently a Research Engineer at UB, building bioinformatics packages (NORSP) in R and Python targeting CRAN release."];
 
 export const skills: Record<string, string[]> = {
   Languages: ["Python", "Java", "C++", "Go", "TypeScript", "JavaScript", "SQL", "Bash"],
@@ -117,9 +117,7 @@ export const experiences: ExperienceType[] = [
     badge: "Industry",
     highlights: [
       "Shipped a production Document AI + Gemini 1.5 Flash pipeline on GCP parsing 300+ supplier PDFs/day into SAP — saving 4 hrs/day per planner.",
-      "Built a human-in-the-loop review platform (Angular, FastAPI, GCP App Engine) with RBAC, SAP validation, and extraction-accuracy telemetry.",
       "Replaced legacy Excel forecasting with a BigQuery pipeline; benchmarked XGBoost / LightGBM / CatBoost and deployed CatBoost at 17% MAPE.",
-      "Owned end-to-end CI/CD deployment, monitoring, and SAP write-back with a human-in-the-loop correction path for AI-extracted fields.",
     ],
     tech: [
       "GCP",
@@ -154,12 +152,9 @@ export const experiences: ExperienceType[] = [
     badge: "Industry",
     client: "Top 10 European Retailer",
     highlights: [
-      "Implemented the checkout precompute layer (Java / Spring Boot, Redis cache-aside with key sharding) for 50M+ consumers across 5 EU markets — cut p95 from 1.8s → 600ms, downstream calls by 60%.",
-      "Developed Kafka producers and consumers handling 1M+ events/day with idempotency keys, retry policies, and DLQ replay; system absorbed 3× seasonal traffic spikes with zero duplicate processing.",
-      "Designed a checkout A/B testing framework (Vue.js / TypeScript) with country/cohort targeting and GDPR bucketing; enabled 12+ experiments/quarter with auto-rollback.",
-      "Shipped real-time fraud scoring APIs (FastAPI + XGBoost, Databricks) at 50ms p95 with full PSD2/SCA compliance; deployed shadow-mode with zero regressions.",
-      "Implemented the PSP adapter layer within a legacy-to-adapter payments migration using a unified contract with contract-test gates — cut new PSP launch from 6 weeks → 1 week.",
-      "Instrumented Azure Monitor / App Insights dashboards with SLO alerting; reduced MTTD from 12min → 3min and MTTR by 40% across checkout.",
+      "Built checkout precompute layer (Java / Spring Boot, Redis cache-aside) for 50M+ consumers — cut p95 from 1.8s → 600ms and downstream calls by 60%.",
+      "Shipped real-time fraud scoring APIs (FastAPI + XGBoost, Databricks) at 50ms p95 with PSD2/SCA compliance; validated shadow-mode with zero regressions.",
+      "Decoupled a Java-invoked Python inference path into a FastAPI microservice on Kubernetes — reduced p95 latency 40% and enabled independent scaling.",
     ],
     tech: [
       "Java",

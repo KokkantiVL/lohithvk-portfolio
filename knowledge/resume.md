@@ -9,7 +9,7 @@
 - LinkedIn: https://www.linkedin.com/in/venkata-lohith-kokkanti/
 
 ## Summary
-Senior software engineer with 3+ years of industry experience building high-throughput backend systems, microservices, and ML pipelines in production. Deep expertise in distributed systems, event-driven architectures, and AI/ML productionization. Currently a Research Engineer at University at Buffalo working on bioinformatics algorithms (NORSP) targeting CRAN release.
+Software engineer with 3+ years of industry experience building high-throughput backend systems, microservices, and ML pipelines in production. Deep expertise in distributed systems, event-driven architectures, and AI/ML productionization. Currently a Research Engineer at University at Buffalo working on bioinformatics algorithms (NORSP) targeting CRAN release.
 
 ## Education
 
