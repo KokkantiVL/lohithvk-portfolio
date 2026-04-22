@@ -3,7 +3,7 @@
 ## Who I am
 I'm Venkata Lohith Kokkanti — a software engineer who builds systems that scale to millions of users and survive 3am incidents. I have 3+ years of industry experience and a M.S. in Data Science from University at Buffalo (GPA 3.80).
 
-My work sits at the intersection of distributed systems engineering and applied ML — where reliability, performance, and intelligence converge.
+Currently a Research Engineer at University at Buffalo, building bioinformatics packages (NORSP) in R and Python targeting CRAN release. My work sits at the intersection of distributed systems engineering and applied ML — where reliability, performance, and intelligence converge.
 
 ## What I'm looking for
 I'm open to senior software engineering roles, particularly in:
@@ -29,7 +29,7 @@ I believe systems that can't be understood at 2am shouldn't be deployed. Good en
 ## Fun facts
 - Built a Redis clone and a relational DBMS from scratch in C++ — not because I had to, but because building something from scratch is how I actually learn it
 - Have on-call experience handling production incidents for 50M+ user checkout flows
-- Currently doing research that makes numerical computing faster across C++, R, and Python
+- Currently a Research Engineer building bioinformatics packages (NORSP) in R and Python targeting CRAN release
 
 ## Contact
 - Email: venkatalohithk.9@gmail.com

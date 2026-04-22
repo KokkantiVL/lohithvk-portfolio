@@ -1,15 +1,15 @@
 # Work Experience
 
-## Research Associate — University at Buffalo
+## Research Engineer — University at Buffalo
 - Period: Feb 2026 – Present
 - Location: Buffalo, NY
 - Type: Research
 
 ### What I do
-Building a high-performance C++/Eigen numerical engine with Rcpp (R) and Python bindings for cross-ecosystem access. Replacing slower reference implementations to deliver order-of-magnitude speedups. Packaging for CRAN distribution so R users can install it directly.
+Building R and Python packages for NORSP, a network-based sparse perturbation-selection method (network propagation + forward subset selection) for steady-state control in biological networks. Implementing the full algorithm pipeline — sensitivity matrix construction, subset-selection search, and model-selection criteria via BIC and adjusted R² — along with a test suite (testthat, pytest) and CI/CD via GitHub Actions. Targeting CRAN release upon publication.
 
 ### Tech used
-C++17, Eigen, Rcpp, Python, R, CRAN
+R, Python, C++17, GitHub Actions, CRAN, testthat, pytest
 
 ---
 
@@ -32,13 +32,13 @@ GCP, Document AI, Gemini 1.5 Flash, BigQuery, FastAPI, Angular, CatBoost, XGBoos
 
 ---
 
-## Student Assistant (AI/Backend) — University at Buffalo
-- Period: Jan 2025 – Dec 2025
+## Graduate Research Assistant — University at Buffalo
+- Period: Feb 2025 – Dec 2025
 - Location: Buffalo, NY
 - Type: Research / Applied AI
 
 ### What I did
-Built the AI and backend layer of a Digital Front Desk Bot for web chat and kiosk. The bot answers facility, membership, class sign-up, and policy questions for Recreation center members. Designed the RAG ingestion pipeline using document chunking and OpenAI text-embedding-3 over Rec center documentation into Pinecone. Wired up retrieval and function-calling tools behind an LLM agent using GPT-4o, GPT-4o-mini, LangChain, and FastAPI for live database lookups.
+Built backend and AI components for a student-facing conversational assistant (web + kiosk), later integrated into a live system serving 31,000+ students across facilities, membership, and class registration workflows. Developed a RAG pipeline using OpenAI text-embedding-3 embeddings and Pinecone, and a GPT-4o function-calling agent (LangChain, FastAPI) that routes between semantic retrieval and live API lookups to ground responses in real-time institutional data.
 
 ### Tech used
 RAG, LangChain, OpenAI, GPT-4o, GPT-4o-mini, FastAPI, Pinecone, Python, text-embedding-3
@@ -48,42 +48,44 @@ RAG, LangChain, OpenAI, GPT-4o, GPT-4o-mini, FastAPI, Pinecone, Python, text-emb
 ## Software Engineer — Accenture
 - Period: Jun 2021 – Jul 2024
 - Location: Bengaluru, India
-- Client: Top 10 European Retailer (name confidential)
+- Clients: Retail Healthcare (50M+ consumers, UK & EU); Enterprise Security SaaS
 - Type: Industry
 
 ### What I did
 
 **Checkout performance:**
-Implemented the checkout precompute layer using Java, Spring Boot, and Redis cache-aside with key sharding for 50M+ consumers across 5 EU markets. Cut p95 latency from 1.8s to 600ms and reduced downstream service calls by 60%. The key sharding strategy solved hot-key contention that was causing Redis bottlenecks during peak traffic.
+Built a checkout precompute layer in Java/Spring Boot that replaced synchronous fan-out to downstream services with a Redis cache-aside (consistent-hash sharding, stampede protection). Cut p95 from 1.8s to 600ms and downstream calls by 60% for 50M+ consumers across EU markets.
 
-**Kafka event processing:**
-Developed Kafka producers and consumers handling 1M+ events per day with idempotency keys, retry policies, and dead-letter queue (DLQ) replay. The system absorbed 3x seasonal traffic spikes with zero duplicate processing.
-
-**A/B testing framework:**
-Designed a checkout A/B testing framework using Vue.js and TypeScript with country and cohort targeting plus GDPR-compliant bucketing. Enabled 12+ experiments per quarter with auto-rollback on regression.
+**ML inference microservice:**
+Decoupled a Java-invoked Python inference path into a FastAPI microservice on Kubernetes, integrated with upstream Java services. Reduced p95 latency 40% and enabled independent scaling for real-time chatbot traffic.
 
 **Fraud detection:**
-Shipped real-time fraud scoring APIs using FastAPI, XGBoost, and Databricks at 50ms p95 with full PSD2/SCA compliance. Deployed in shadow mode first with zero regressions before going live.
+Shipped real-time fraud scoring APIs (FastAPI + XGBoost, Databricks feature pipeline) at 50ms p95 with PSD2/SCA compliance. Deployed in shadow mode against live traffic with zero regressions before cutover.
+
+**Data migration:**
+Engineered Kafka + Flink pipelines for zero-downtime migration of 150M+ MongoDB records with exactly-once delivery via Flink checkpointing. Observability through Prometheus/Grafana dashboards.
+
+**Query optimization:**
+Cut MongoDB query latency from 5 min to 400ms across 20M+ records by replacing expensive string scans with write-time tokenization and B-tree indexed prefix lookups.
 
 **Payments migration:**
-Implemented the PSP (Payment Service Provider) adapter layer within a legacy-to-adapter payments migration using a unified contract with contract-test gates. Cut new PSP onboarding time from 6 weeks to 1 week.
+Implemented a PSP adapter layer (Java) in a legacy-to-adapter payments migration, authoring a unified contract with contract-test gates in CI. Cut new PSP onboarding from 6 weeks to 1 week.
 
-**Observability:**
-Instrumented Azure Monitor and App Insights dashboards with SLO alerting. Reduced MTTD (mean time to detect) from 12 minutes to 3 minutes and MTTR (mean time to resolve) by 40% across checkout.
+**Certificate Authority simulator:**
+Engineered a multi-threaded Java CA simulator for large-scale load testing of millions of concurrent SOAP, REST, and gRPC API requests. Eliminated third-party dependencies and saved $1M annually in licensing costs.
 
-**Mentorship:**
-Mentored 2–3 junior engineers on payment reliability patterns. Guided CronJob-based retry logic that reduced failed checkout transactions by ~25%.
+**APIs and testing:**
+Designed Spring Boot REST/GraphQL APIs with OAuth 2.0/JWT. Drove test coverage from 0% to 85% (JUnit, Mockito). Authored design docs and served as on-call DRI.
 
 ### Key metrics
-- p95 latency: 1.8s → 600ms (checkout)
-- Downstream calls reduced by 60%
-- 1M+ Kafka events/day with zero duplicates
-- 3x seasonal traffic spikes absorbed
+- p95 latency: 1.8s → 600ms (checkout), downstream calls reduced by 60%
+- ML inference p95 latency reduced 40%
 - Fraud API: 50ms p95
+- 150M+ records migrated with zero data loss
+- MongoDB query latency: 5min → 400ms across 20M+ records
 - PSP onboarding: 6 weeks → 1 week
-- MTTD: 12min → 3min
-- MTTR reduced by 40%
-- Failed transactions reduced ~25%
+- $1M/year saved in licensing costs
+- Test coverage: 0% → 85%
 
 ### Tech used
-Java, Spring Boot, Redis, Kafka, FastAPI, XGBoost, Vue.js, TypeScript, Azure Monitor, App Insights, Databricks, Python
+Java, Spring Boot, FastAPI, Python, Kafka, Flink, Redis, MongoDB, XGBoost, Databricks, Kubernetes, Prometheus, Grafana, gRPC
